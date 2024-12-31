@@ -1,0 +1,15 @@
+cmd:
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M5_Golang_Assignments\Assignment_Set_Two\a2_ems_project> sqlite3 ./myecommerce.db
+SQLite version 3.46.1 2024-08-13 09:16:08 (UTF-16 console I/O)
+Enter ".help" for usage hints.
+sqlite>
+sqlite> .tables
+products  users
+sqlite>
+sqlite> SELECT * FROM products;
+1|laptop|Hp loptop|99.99|50|1
+2|Mobile|Realme 5 pro|1000.0|10|12
+sqlite>
+sqlite> SELECT * FROM users;
+1|admin|admin
+sqlite>
