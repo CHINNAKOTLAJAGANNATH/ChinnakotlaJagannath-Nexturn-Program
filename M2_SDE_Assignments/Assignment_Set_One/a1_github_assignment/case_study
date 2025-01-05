@@ -1,0 +1,40 @@
+Case Study: Git and GitHub Workflow Exercise 
+
+Background: 
+    You are part of a development team working on a small project called "Sample Project". 
+    The project is designed to serve as a foundation for your team's Git and GitHub workflow training. 
+    The team has decided to host the project on GitHub to facilitate collaboration, version control, and centralized code management. 
+    Your task is to initialize the project in Git, push it to a remote GitHub repository, and 
+    practice working with branches to simulate feature development and maintenance. 
+    
+Scenario: 
+    1. Project Initialization: 
+        o Your team has asked you to set up version control for a new project locally 
+        and link it to a GitHub repository. \
+
+    2. Feature Addition: 
+        o A new feature requires you to add a README.md file that contains an 
+        introduction to the project. The file should include: 
+        ▪ The project name. 
+        ▪ A brief description of the project. 
+
+    3. Branch Management: 
+        o To add the README.md file, you must create a new branch called 
+        feature/update-readme. 
+        o After completing the changes, you need to push the branch to the remote 
+        repository for review by your team. 
+
+    4. Merge Changes: 
+        o Once the feature branch is reviewed, you must merge it into the main 
+        branch and ensure that the changes are reflected in the remote 
+        repository. 
+
+    5. Branch Cleanup: 
+        o After the merge, the feature/update-readme branch is no longer needed. 
+        Your team has instructed you to delete it both locally and remotely. 
+
+Deliverables: 
+    1. A GitHub repository named sample-project with the initial project content. 
+    2. A new branch named feature/update-readme containing the updated README.md file. 
+    3. The README.md file merged into the main branch. 
+    4. The feature/update-readme branch deleted locally and remotely.
