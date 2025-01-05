@@ -1,0 +1,32 @@
+In VS code:
+    python -m venv venv
+
+    venv\Scripts\activate
+
+    pip install -r requirements.txt
+
+    python initialize_db.py
+
+    python main.py
+
+In cmd:
+    sqlite3 books.db
+
+    SELECT * FROM books;
+
+- SQLite database (via SELECT * FROM books) and the data returned by the API (http://127.0.0.1:5000/books) are not synchronized.
+
+- This happens when the database in use by the API is different from the one we're inspecting via the command line.
+
+In post-man:
+
+Get: http://127.0.0.1:5000/books
+
+POST: http://127.0.0.1:5000/books
+
+PUT: http://127.0.0.1:5000/books/id
+
+DELETE: http://127.0.0.1:5000/books/id
+
+
+
