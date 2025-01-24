@@ -1,0 +1,121 @@
+
+SetUp: Database and Table Creation 
+    Open the command prompt/terminal to start the SQLite3 Command-Line Interface (CLI) 
+    or use a database management tool like DB Browser for SQLite: 
+    
+    - To create or Use Database: 
+        PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M4_DataEngineering_Assignments\A2_Employee_Management_system(SQLite3)> sqlite3 EmployeeManagement.db 
+    
+    - To Create the Departments Table: 
+        sqlite> CREATE TABLE Departments ( 
+                DepartmentID INTEGER PRIMARY KEY, 
+                DepartmentName TEXT NOT NULL 
+            ); 
+
+    - To Create the Employees Table: 
+        sqlite> CREATE TABLE Employees ( 
+                EmployeeID INTEGER PRIMARY KEY, 
+                Name TEXT NOT NULL, 
+                DepartmentID INTEGER NOT NULL, 
+                Salary REAL NOT NULL, 
+                HireDate TEXT NOT NULL, 
+                FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID) 
+            ); 
+        
+        sqlite> .schema Departments
+        Output:
+            CREATE TABLE Departments (
+                DepartmentID INTEGER PRIMARY KEY,
+                DepartmentName TEXT NOT NULL
+            );
+
+        sqlite> .tables
+                Departments  Employees
+        
+        sqlite> .schema Employees
+        Output:
+            CREATE TABLE Employees (
+                EmployeeID INTEGER PRIMARY KEY,
+                Name TEXT NOT NULL,
+                DepartmentID INTEGER NOT NULL,
+                Salary REAL NOT NULL,
+                HireDate TEXT NOT NULL,
+                FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+            );
+
+
+SetUp: Inserting the Given Sample Data
+
+    - To Insert Data into Departments Table: 
+        sqlite> INSERT INTO Departments (DepartmentID, DepartmentName) VALUES 
+                (101, 'HR'), 
+                (102, 'IT'), 
+                (103, 'Finance'),
+                (104, 'Engineering'); 
+
+        sqlite> SELECT * FROM Departments;
+        Output:
+            101|HR
+            102|IT
+            103|Finance
+            104|Engineering
+        
+    
+    - To Insert Data into Employees Table:  
+        sqlite> INSERT INTO Employees (EmployeeID, Name, DepartmentID, Salary, HireDate) VALUES 
+                (1, 'Alice', 101, 70000, '2021-01-15'), 
+                (2, 'Bob', 102, 60000, '2020-03-10'), 
+                (3, 'Charlie', 101, 80000, '2022-05-20'), 
+                (4, 'Diana', 103, 75000, '2019-07-25'); 
+        
+        sqlite> SELECT * FROM Employees;
+        Output:
+            1|Alice|101|70000.0|2021-01-15
+            2|Bob|102|60000.0|2020-03-10
+            3|Charlie|101|80000.0|2022-05-20
+            4|Diana|103|75000.0|2019-07-25
+
+SQLite3 Queries:  
+    -Query 1: List the names of employees hired after January 1, 2021. 
+        sqlite> SELECT Name FROM Employees 
+                WHERE HireDate > '2021-01-01'; 
+        Output:
+            Alice
+            Charlie
+
+    - Query 2: Calculate the average salary of employees in each department. 
+        sqlite> SELECT D.DepartmentName, AVG(E.Salary) AS AverageSalary 
+                FROM Employees E 
+                JOIN Departments D ON E.DepartmentID = D.DepartmentID 
+                GROUP BY D.DepartmentName; 
+        Output:
+            Finance|75000.0
+            HR|75000.0
+            IT|60000.0
+    
+    - Query 3: Find the department name where the total salary is the highest. 
+        sqlite> SELECT D.DepartmentName 
+                FROM Employees E 
+                JOIN Departments D ON E.DepartmentID = D.DepartmentID 
+                GROUP BY D.DepartmentName 
+                ORDER BY SUM(E.Salary) DESC 
+                LIMIT 1;
+        Output:
+            HR
+
+    - Query 4: List all departments that currently have no employees assigned. 
+        sqlite> SELECT D.DepartmentName 
+                FROM Departments D 
+                WHERE D.DepartmentID NOT IN (SELECT DISTINCT E.DepartmentID FROM Employees E);
+        Output:
+            Engineering
+    
+    - Query 5: Fetch all employee details along with their department names. 
+        sqlite> SELECT E.*, D.DepartmentName 
+                FROM Employees E 
+                JOIN Departments D ON E.DepartmentID = D.DepartmentID;
+        Output:
+            1|Alice|101|70000.0|2021-01-15|HR
+            2|Bob|102|60000.0|2020-03-10|IT
+            3|Charlie|101|80000.0|2022-05-20|HR
+            4|Diana|103|75000.0|2019-07-25|Finance
