@@ -1,0 +1,648 @@
+Commands:
+
+    - Start the MongoDB server by running:
+        mongod
+    - Start the MongoDB shell to interact with the server:
+        mongosh
+
+        C:\Users\JAGANNATH>mongosh
+        Output:
+            Current Mongosh Log ID: 679346aa77b9c8dfdd0d818f
+            Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.3
+            Using MongoDB:          8.0.3
+            Using Mongosh:          2.3.3
+
+            For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+    - To see database
+        test> show dbs
+        output:
+            admin      40.00 KiB
+            config     60.00 KiB
+            db         40.00 KiB
+            local      80.00 KiB
+            mydb       40.00 KiB
+            sampledb  376.00 KiB
+
+    - Switch to or Create New Database: 
+
+        test> use onlineShopping
+        Output: switched to db onlineShopping
+
+    - To check under which database I am: 
+        onlineShopping> db
+        Output: onlineShopping
+    
+    -  Create the Collections for Users, Orders and Products.
+
+        1. To create collection for users:
+            db.createCollection("users", { 
+                validator: { 
+                    $jsonSchema: { 
+                        bsonType: "object", 
+                        required: ["userId", "name", "email", "age", "address", "createdAt"], 
+                        properties: { 
+                            userId: { bsonType: "string" }, 
+                            name: { bsonType: "string" }, 
+                            email: { bsonType: "string", pattern: "^.+@.+\\..+$" }, 
+                            age: { bsonType: "int", minimum: 18 }, 
+                            address: { 
+                                bsonType: "object",                                     required: ["city", "state", "zip"], 
+                                properties: { 
+                                    city: { bsonType: "string" }, 
+                                    state: { bsonType: "string" }, 
+                                    zip: { bsonType: "string" } 
+                                } 
+                            }, 
+                            createdAt: { bsonType: "date" } 
+                        } 
+                    } 
+                } 
+            });
+        
+
+        2. To create collection for orders:
+            db.createCollection("orders", { 
+                validator: { 
+                    $jsonSchema: { 
+                        bsonType: "object", 
+                        required: ["orderId", "userId", "orderDate", "items", "totalAmount", "status"], 
+                        properties: { 
+                            orderId: { bsonType: "string" }, 
+                            userId: { bsonType: "string" }, 
+                            orderDate: { bsonType: "date" }, 
+                            items: { 
+                                bsonType: "array", 
+                                items: { 
+                                    bsonType: "object", 
+                                    required: ["productId", "quantity", "price"], 
+                                    properties: { 
+                                        productId: { bsonType: "string" }, 
+                                        quantity: { bsonType: "int", minimum: 1 }, 
+                                        price: { bsonType: "decimal" }  // Allow Decimal128 type
+                                    } 
+                                } 
+                            }, 
+                            totalAmount: { bsonType: "decimal" },  // Allow Decimal128 type
+                            status: { bsonType: "string" } 
+                        } 
+                    } 
+                } 
+            });
+
+
+        3. To create collection for Products:
+            db.createCollection("products", { 
+                validator: { 
+                    $jsonSchema: { 
+                        bsonType: "object", 
+                        required: ["productId", "name", "category", "price", "stock", "ratings"], 
+                        properties: { 
+                            productId: { bsonType: "string" }, 
+                            name: { bsonType: "string" }, 
+                            category: { bsonType: "string" }, 
+                            price: { bsonType: "decimal" },  // Use decimal for price
+                            stock: { bsonType: "int", minimum: 0 }, 
+                            ratings: { 
+                                bsonType: "array", 
+                                items: { 
+                                    bsonType: "object", 
+                                    required: ["userId", "rating"], 
+                                    properties: { 
+                                        userId: { bsonType: "string" }, 
+                                        rating: { bsonType: "decimal" }  // Use decimal for rating
+                                    } 
+                                } 
+                            } 
+                        } 
+                    } 
+                } 
+            });
+
+    - Insert Documents: Populate the collections (users, orders, and products) with sample data.
+    
+        1. Insert Users:
+            
+            db.users.insertMany([
+            {
+                "userId": "U001",
+                "name": "John Doe",
+                "email": "john.doe@example.com",
+                "age": 28,
+                "address": {
+                    "city": "New York",
+                    "state": "NY",
+                    "zip": "10001"
+                },
+                "createdAt": new ISODate("2024-01-01T10:00:00Z")
+            },
+            {
+                "userId": "U002",
+                "name": "Jane Smith",
+                "email": "jane.smith@example.com",
+                "age": 34,
+                "address": {
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "zip": "90001"
+                },
+                "createdAt": new ISODate("2024-01-15T09:00:00Z")
+            },
+            {
+                "userId": "U003",
+                "name": "Alice Johnson",
+                "email": "alice.johnson@example.com",
+                "age": 25,
+                "address": {
+                    "city": "Chicago",
+                    "state": "IL",
+                    "zip": "60601"
+                },
+                "createdAt": new ISODate("2024-02-01T11:00:00Z")
+            },
+            {
+                "userId": "U004",
+                "name": "Jagan",
+                "email": "jagan@example.com",
+                "age": 24,
+                "address": {
+                    "city": "India",
+                    "state": "AP",
+                    "zip": "515591"
+                },
+                "createdAt": new ISODate("2024-08-16T13:00:00Z")
+            }
+        ]);
+
+
+        Output:
+            {
+                acknowledged: true,
+                insertedIds: {
+                    '0': ObjectId('67939ed806191bbb010d8190'),
+                    '1': ObjectId('6793a58b06191bbb010d819e'),
+                    '2': ObjectId('6793a58b06191bbb010d819f'),
+                    '3': ObjectId('6793be6d06191bbb010d81a4')
+                }
+            }
+            
+        2. Insert orders:
+
+            db.orders.insertMany([
+                {
+                    "orderId": "ORD001",
+                    "userId": "U001",
+                    "orderDate": new ISODate("2024-12-10T14:32:00Z"),
+                    "items": [
+                        { "productId": "P001", "quantity": 2, "price": NumberDecimal("100.0") },
+                        { "productId": "P002", "quantity": 1, "price": NumberDecimal("50.0") }
+                    ],
+                    "totalAmount": NumberDecimal("250.0"),
+                    "status": "Delivered"
+                },
+                {
+                    "orderId": "ORD002",
+                    "userId": "U002",
+                    "orderDate": new ISODate("2024-12-11T12:45:00Z"),
+                    "items": [
+                        { "productId": "P001", "quantity": 1, "price": NumberDecimal("100.0") },
+                        { "productId": "P003", "quantity": 2, "price": NumberDecimal("25.0") }
+                    ],
+                    "totalAmount": NumberDecimal("150.0"),
+                    "status": "Shipped"
+                },
+                {
+                    "orderId": "ORD003",
+                    "userId": "U003",
+                    "orderDate": new ISODate("2024-12-12T10:15:00Z"),
+                    "items": [
+                        { "productId": "P002", "quantity": 3, "price": NumberDecimal("50.0") }
+                    ],
+                    "totalAmount": NumberDecimal("150.0"),
+                    "status": "Delivered"
+                },
+                {
+                    "orderId": "ORD004",
+                    "userId": "U004",
+                    "orderDate": new ISODate("2024-09-17T10:15:00Z"),
+                    "items": [
+                        { "productId": "P004", "quantity": 3, "price": NumberDecimal("200.0") }
+                    ],
+                    "totalAmount": NumberDecimal("600.0"),
+                    "status": "Pending"
+                }
+            ]);
+
+
+        Output:
+            {
+                acknowledged: true,
+                insertedIds: {
+                    '0': ObjectId('6793a07a06191bbb010d8197'),
+                    '1': ObjectId('6793a65a06191bbb010d81a0'),
+                    '2': ObjectId('6793a65a06191bbb010d81a1'),
+                    '3': ObjectId('6793bf9f06191bbb010d81a5')
+                }
+            }
+
+
+        3. Insert products:
+            db.products.insertMany([
+                {
+                    "productId": "P001",
+                    "name": "Wireless Mouse",
+                    "category": "Electronics",
+                    "price": NumberDecimal("50.0"),  // Use NumberDecimal for price
+                    "stock": 200,
+                    "ratings": [
+                        { "userId": "U002", "rating": NumberDecimal("4.5") },  // Use NumberDecimal for rating
+                        { "userId": "U003", "rating": NumberDecimal("3.0") }   // Use NumberDecimal for rating
+                    ]
+                },
+                {
+                    "productId": "P002",
+                    "name": "Bluetooth Headphones",
+                    "category": "Electronics",
+                    "price": NumberDecimal("50.0"),
+                    "stock": 150,
+                    "ratings": [
+                        { "userId": "U001", "rating": NumberDecimal("4.0") },
+                        { "userId": "U003", "rating": NumberDecimal("4.5") }
+                    ]
+                },
+                {
+                    "productId": "P003",
+                    "name": "Wireless Keyboard",
+                    "category": "Electronics",
+                    "price": NumberDecimal("25.0"),
+                    "stock": 300,
+                    "ratings": [
+                        { "userId": "U001", "rating": NumberDecimal("3.5") },
+                        { "userId": "U002", "rating": NumberDecimal("4.0") }
+                    ]
+                },
+                {
+                    "productId": "P004",
+                    "name": "Charger",
+                    "category": "Electronics",
+                    "price": NumberDecimal("75.0"),
+                    "stock": 250,
+                    "ratings": [
+                        { "userId": "U003", "rating": NumberDecimal("4.2") },
+                        { "userId": "U004", "rating": NumberDecimal("4.9") }
+                    ]
+                }
+            ]);
+
+        Output:
+            {
+                acknowledged: true,
+                insertedIds: {
+                    '0': ObjectId('6793a20d06191bbb010d819d'),
+                    '1': ObjectId('6793a6db06191bbb010d81a2'),
+                    '2': ObjectId('6793a6db06191bbb010d81a3'),
+                    '3': ObjectId('6793c08906191bbb010d81a6')
+                }
+            }
+
+    - To View Users, Orders, Products Data
+
+    1. To View users Data:
+        onlineShopping> db.users.find().pretty();
+        [
+            {
+                _id: ObjectId('67939ed806191bbb010d8190'),
+                userId: 'U001',
+                name: 'John Doe',
+                email: 'john.doe@example.com',
+                age: 28,
+                address: { city: 'New York', state: 'NY', zip: '10001' },
+                createdAt: ISODate('2024-01-01T10:00:00.000Z')
+            },
+            {
+                _id: ObjectId('6793a58b06191bbb010d819e'),
+                userId: 'U002',
+                name: 'Jane Smith',
+                email: 'jane.smith@example.com',
+                age: 34,
+                address: { city: 'Los Angeles', state: 'CA', zip: '90001' },
+                createdAt: ISODate('2024-01-15T09:00:00.000Z')
+            },
+            {
+                _id: ObjectId('6793a58b06191bbb010d819f'),
+                userId: 'U003',
+                name: 'Alice Johnson',
+                email: 'alice.johnson@example.com',
+                age: 25,
+                address: { city: 'Chicago', state: 'IL', zip: '60601' },
+                createdAt: ISODate('2024-02-01T11:00:00.000Z')
+            },
+            {
+                _id: ObjectId('6793be6d06191bbb010d81a4'),
+                userId: 'U004',
+                name: 'Jagan',
+                email: 'jagan@example.com',
+                age: 24,
+                address: { city: 'India', state: 'AP', zip: '515591' },
+                createdAt: ISODate('2024-08-16T13:00:00.000Z')
+            }
+        ]
+
+    2. To View Orders Data:
+        onlineShopping> db.orders.find().pretty();
+        [
+            {
+                _id: ObjectId('6793a07a06191bbb010d8197'),
+                orderId: 'ORD001',
+                userId: 'U001',
+                orderDate: ISODate('2024-12-10T14:32:00.000Z'),
+                items: [
+                { productId: 'P001', quantity: 2, price: Decimal128('100.0') },
+                { productId: 'P002', quantity: 1, price: Decimal128('50.0') }
+                ],
+                totalAmount: Decimal128('250.0'),
+                status: 'Delivered'
+            },
+            {
+                _id: ObjectId('6793a65a06191bbb010d81a0'),
+                orderId: 'ORD002',
+                userId: 'U002',
+                orderDate: ISODate('2024-12-11T12:45:00.000Z'),
+                items: [
+                { productId: 'P001', quantity: 1, price: Decimal128('100.0') },
+                { productId: 'P003', quantity: 2, price: Decimal128('25.0') }
+                ],
+                totalAmount: Decimal128('150.0'),
+                status: 'Shipped'
+            },
+            {
+                _id: ObjectId('6793a65a06191bbb010d81a1'),
+                orderId: 'ORD003',
+                userId: 'U003',
+                orderDate: ISODate('2024-12-12T10:15:00.000Z'),
+                items: [ { productId: 'P002', quantity: 3, price: Decimal128('50.0') } ],
+                totalAmount: Decimal128('150.0'),
+                status: 'Delivered'
+            },
+            {
+                _id: ObjectId('6793bf9f06191bbb010d81a5'),
+                orderId: 'ORD004',
+                userId: 'U004',
+                orderDate: ISODate('2024-09-17T10:15:00.000Z'),
+                items: [ { productId: 'P004', quantity: 3, price: Decimal128('200.0') } ],
+                totalAmount: Decimal128('600.0'),
+                status: 'Pending'
+            }
+        ]
+
+
+    3. To View Product Data:
+        onlineShopping> db.products.find().pretty();
+        [
+            {
+                _id: ObjectId('6793a20d06191bbb010d819d'),
+                productId: 'P001',
+                name: 'Wireless Mouse',
+                category: 'Electronics',
+                price: Decimal128('50.0'),
+                stock: 200,
+                ratings: [
+                { userId: 'U002', rating: Decimal128('4.5') },
+                { userId: 'U003', rating: Decimal128('3.0') }
+                ]
+            },
+            {
+                _id: ObjectId('6793a6db06191bbb010d81a2'),
+                productId: 'P002',
+                name: 'Bluetooth Headphones',
+                category: 'Electronics',
+                price: Decimal128('50.0'),
+                stock: 150,
+                ratings: [
+                { userId: 'U001', rating: Decimal128('4.0') },
+                { userId: 'U003', rating: Decimal128('4.5') }
+                ]
+            },
+            {
+                _id: ObjectId('6793a6db06191bbb010d81a3'),
+                productId: 'P003',
+                name: 'Wireless Keyboard',
+                category: 'Electronics',
+                price: Decimal128('25.0'),
+                stock: 300,
+                ratings: [
+                { userId: 'U001', rating: Decimal128('3.5') },
+                { userId: 'U002', rating: Decimal128('4.0') }
+                ]
+            },
+            {
+                _id: ObjectId('6793c08906191bbb010d81a6'),
+                productId: 'P004',
+                name: 'Charger',
+                category: 'Electronics',
+                price: Decimal128('75.0'),
+                stock: 250,
+                ratings: [
+                { userId: 'U003', rating: Decimal128('4.2') },
+                { userId: 'U004', rating: Decimal128('4.9') }
+                ]
+            }
+        ]
+
+    - To see collections:
+        onlineShopping> show collections
+        
+        Output:
+            orders
+            products
+            users
+    
+------------------------------------------------------------------------------
+
+Queries:
+
+    1. Find High-Spending Users 
+        Write a query to find users who have spent more than $500 in total across all 
+        their orders. 
+        Hint: Use $lookup to join the users and orders collections and calculate the total 
+        spending.
+
+        onlineShopping> 
+        db.users.aggregate([
+            {
+                $lookup: {
+                    from: "orders",
+                    localField: "userId",
+                    foreignField: "userId",
+                    as: "userOrders"
+                }
+            },
+            {
+                $unwind: "$userOrders"
+            },
+            {
+                $group: {
+                    _id: "$userId",
+                    name: { $first: "$name" },
+                    totalSpent: { $sum: "$userOrders.totalAmount" }
+                }
+            },
+            {
+                $match: {
+                    totalSpent: { $gt: NumberDecimal("500.0") }
+                }
+            }
+        ]);
+
+    Output:
+        [ { _id: 'U004', name: 'Jagan', totalSpent: Decimal128('600.0') } ]
+
+    2. List Popular Products by Average Rating 
+        Retrieve products that have an average rating greater than or equal to 4. 
+        Hint: Use $unwind to flatten the ratings array and $group to calculate the 
+        average rating. 
+
+        onlineShopping> db.products.aggregate([
+                {
+                    $unwind: "$ratings"
+                },
+                {
+                    $group: {
+                        _id: "$productId",
+                        name: { $first: "$name" },
+                        avgRating: { $avg: "$ratings.rating" }
+                    }
+                },
+                {
+                    $match: {
+                        avgRating: { $gte: 4.0 }
+                    }
+                }
+            ]);
+
+        Output:
+            [
+                {
+                    _id: 'P002',
+                    name: 'Bluetooth Headphones',
+                    avgRating: Decimal128('4.25')
+                },
+                { 
+                    _id: 'P004', 
+                    name: 'Charger', 
+                    avgRating: Decimal128('4.55') 
+                }
+            ]
+
+    
+    3. Search for Orders in a Specific Time Range 
+        Find all orders placed between "2024-12-01" and "2024-12-31". Ensure the result 
+        includes the user name for each order. 
+        Hint: Use $match with a date range filter and $lookup to join with the users 
+        collection. 
+
+            onlineShopping> db.orders.aggregate([
+                    {
+                        $match: {
+                            orderDate: {
+                                $gte: new ISODate("2024-12-01T00:00:00Z"),
+                                $lte: new ISODate("2024-12-31T23:59:59Z")
+                            }
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "userId",
+                            foreignField: "userId",
+                            as: "userDetails"
+                        }
+                    },
+                    {
+                        $unwind: "$userDetails"
+                    },
+                    {
+                        $project: {
+                            orderId: 1,
+                            orderDate: 1,
+                            totalAmount: 1,
+                            status: 1,
+                            userName: "$userDetails.name"
+                        }
+                    }
+                ]);
+            
+            Output:
+                [
+                    {
+                        _id: ObjectId('6793a07a06191bbb010d8197'),
+                        orderId: 'ORD001',
+                        orderDate: ISODate('2024-12-10T14:32:00.000Z'),
+                        totalAmount: Decimal128('250.0'),
+                        status: 'Delivered',
+                        userName: 'John Doe'
+                    },
+                    {
+                        _id: ObjectId('6793a65a06191bbb010d81a0'),
+                        orderId: 'ORD002',
+                        orderDate: ISODate('2024-12-11T12:45:00.000Z'),
+                        totalAmount: Decimal128('150.0'),
+                        status: 'Shipped',
+                        userName: 'Jane Smith'
+                    },
+                    {
+                        _id: ObjectId('6793a65a06191bbb010d81a1'),
+                        orderId: 'ORD003',
+                        orderDate: ISODate('2024-12-12T10:15:00.000Z'),
+                        totalAmount: Decimal128('150.0'),
+                        status: 'Delivered',
+                        userName: 'Alice Johnson'
+                    }
+                ]
+
+    4. Update Stock After Order Completion 
+        When an order is placed, reduce the stock of each product by the quantity in the 
+        order. For example, if 2 units of P001 were purchased, decrement its stock by 2. 
+        Hint: Use $inc with updateOne or updateMany. 
+
+        onlineShopping> db.orders.find({ status: "Delivered" }).forEach(order => {
+                        order.items.forEach(item => {
+                            db.products.updateOne(
+                                { productId: item.productId },
+                                { $inc: { stock: -item.quantity } }
+                            );
+                        });
+                    });
+
+    5. Find Nearest Warehouse 
+        Assume there’s a warehouses collection with geospatial data: 
+        { 
+            "warehouseId": "W001", 
+            "location": { "type": "Point", "coordinates": [-74.006, 
+            40.7128] }, 
+            "products": ["P001", "P002", "P003"] 
+        } 
+        Find the nearest warehouse within a 50-kilometer radius that stocks "P001". 
+        Hint: Use the $geoNear aggregation stage with a filter on the products array.
+
+        onlineShopping> db.warehouses.createIndex({ location: "2dsphere" });
+
+        onlineShopping> db.warehouses.aggregate([
+            {
+                $geoNear: {
+                    near: { type: "Point", coordinates: [-74.006, 40.7128] },
+                    distanceField: "distance",
+                    maxDistance: 50000,  // 50 km in meters
+                    spherical: true,
+                    query: { products: "P001" }
+                }
+            },
+            {
+                $project: {
+                    warehouseId: 1,
+                    location: 1,
+                    distance: 1,
+                    products: 1
+                }
+            }
+        ]);
