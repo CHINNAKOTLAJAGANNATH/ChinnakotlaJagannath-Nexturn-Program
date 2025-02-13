@@ -1,0 +1,25 @@
+Commands:
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2> git clone https://github.com/CHINNAKOTLAJAGANNATH/React_Project.git
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2> cd React_Project
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\React_Project> echo "# React Project" > README.md
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\React_Project> git add .
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\React_Project> git commit -m "Initial commit"
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\React_Project> git push origin main
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2> cd react_project
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> npx create-react-app .
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> Remove-Item package-lock.json -Force
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> npx create-react-app .
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> npm install
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> npm run build
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\Deployment> git status
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2> Move-Item -Path "C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\Deployment" -Destination "C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project"
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git add Deployment
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git commit -m "Added Deployment folder"
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git push origin main
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git add Deployment
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git commit -m "Fixed line endings issue"
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git add .
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git commit -m "Added Deployment folder and fixed line endings issue"
+PS C:\Nexturn\ChinnakotlaJagannath-Nexturn-Programs\M6_Devops_Assignments\Ex-2\react_project> git push origin main
+PS D:\new_jenkins_home\workspace\Build_and_Deploy_JS_Project> npm run build
+
