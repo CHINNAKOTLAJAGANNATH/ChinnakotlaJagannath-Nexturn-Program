@@ -1,0 +1,74 @@
+[
+    {
+        "member_id": 1,
+        "name": "Anubhav Ranjan",
+        "borrowed_books": [],
+        "membership": "Premium",
+        "max_books": 5
+    },
+    {
+        "member_id": 2,
+        "name": "Shirish Manoj Bobde",
+        "borrowed_books": [],
+        "membership": "Premium",
+        "max_books": 5
+    },
+    {
+        "member_id": 3,
+        "name": "Rushil Ranjan",
+        "borrowed_books": [
+            {
+                "book_id": 2,
+                "title": "Rich Dad Poor Dad",
+                "author": "Robert T. Kiyosaki",
+                "category": "Non-Fiction",
+                "status": "borrowed"
+            },
+            {
+                "book_id": 3,
+                "title": "The White Tiger",
+                "author": "Aravind Adiga",
+                "category": "Fiction",
+                "status": "borrowed"
+            },
+            {
+                "book_id": 4,
+                "title": "God of Small Things",
+                "author": "Arundhati Roy",
+                "category": "Non-Fiction",
+                "status": "borrowed"
+            }
+        ],
+        "membership": "Regular",
+        "max_books": 3
+    },
+    {
+        "member_id": 4,
+        "name": "Sundeep Nayak",
+        "borrowed_books": [
+            {
+                "book_id": 6,
+                "title": "Harry Potter and the prisoner of Azkaban",
+                "author": "J.K. Rowlings",
+                "category": "Fiction",
+                "status": "borrowed"
+            }
+        ],
+        "membership": "Regular",
+        "max_books": 3
+    },
+    {
+        "member_id": 5,
+        "name": "Divyanshu Kumar",
+        "borrowed_books": [],
+        "membership": "Regular",
+        "max_books": 3
+    },
+    {
+        "member_id": 6,
+        "name": "Atur Gupta",
+        "borrowed_books": [],
+        "membership": "Premium",
+        "max_books": 5
+    }
+]

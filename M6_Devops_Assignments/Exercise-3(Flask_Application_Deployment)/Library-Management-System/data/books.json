@@ -1,0 +1,44 @@
+[
+    {
+        "book_id": 1,
+        "title": "The Guide",
+        "author": "R. K. Narayan",
+        "category": "Non-Fiction",
+        "status": "available"
+    },
+    {
+        "book_id": 2,
+        "title": "Rich Dad Poor Dad",
+        "author": "Robert T. Kiyosaki",
+        "category": "Non-Fiction",
+        "status": "borrowed"
+    },
+    {
+        "book_id": 3,
+        "title": "The White Tiger",
+        "author": "Aravind Adiga",
+        "category": "Fiction",
+        "status": "borrowed"
+    },
+    {
+        "book_id": 4,
+        "title": "God of Small Things",
+        "author": "Arundhati Roy",
+        "category": "Non-Fiction",
+        "status": "borrowed"
+    },
+    {
+        "book_id": 5,
+        "title": "Think and Grow Rich",
+        "author": "Napolean Hill",
+        "category": "Non-Fiction",
+        "status": "available"
+    },
+    {
+        "book_id": 6,
+        "title": "Harry Potter and the prisoner of Azkaban",
+        "author": "J.K. Rowlings",
+        "category": "Fiction",
+        "status": "borrowed"
+    }
+]
