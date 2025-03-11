@@ -1,0 +1,143 @@
+Started by user Chinnakotla Jagannath
+Obtained Jenkinsfile from git https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential jagan_credentials
+Cloning the remote Git repository
+Cloning repository https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git
+ > git.exe init C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline # timeout=10
+Fetching upstream changes from https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.44.0.windows.1'
+using GIT_ASKPASS to set credentials credentials
+ > git.exe fetch --tags --force --progress -- https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe config remote.origin.url https://github.com/Balajiyoganantham/React_CICD.git # timeout=10
+ > git.exe config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+Checking out Revision 0ed2ddfe3cf3dc2a5181e6bf0ba4815255024dd0 (refs/remotes/origin/master)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 0ed2ddfe3cf3dc2a5181e6bf0ba4815255024dd0 # timeout=10
+Commit message: "add jenkinsfile"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Checkout)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+ > git.exe rev-parse --resolve-git-dir C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\.git # timeout=10
+Fetching changes from the remote Git repository
+ > git.exe config remote.origin.url https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git # timeout=10
+Fetching upstream changes from https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git
+ > git.exe --version # timeout=10
+ > git --version # 'git version 2.44.0.windows.1'
+ > git.exe fetch --tags --force --progress -- https://github.com/CHINNAKOTLAJAGANNATH/React-ToDo-App.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git.exe rev-parse "refs/remotes/origin/master^{commit}" # timeout=10
+Checking out Revision 0ed2ddfe3cf3dc2a5181e6bf0ba4815255024dd0 (refs/remotes/origin/master)
+ > git.exe config core.sparsecheckout # timeout=10
+ > git.exe checkout -f 0ed2ddfe3cf3dc2a5181e6bf0ba4815255024dd0 # timeout=10
+ > git.exe branch -a -v --no-abbrev # timeout=10
+ > git.exe checkout -b master 0ed2ddfe3cf3dc2a5181e6bf0ba4815255024dd0 # timeout=10
+Commit message: "add jenkinsfile"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Install)
+[Pipeline] dir
+Running in C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master
+[Pipeline] {
+[Pipeline] bat
+
+C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master>npm install 
+
+added 269 packages, and audited 270 packages in 7s
+
+97 packages are looking for funding
+  run `npm fund` for details
+
+4 vulnerabilities (1 moderate, 3 high)
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Lint)
+[Pipeline] dir
+Running in C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] bat
+
+C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master>npm run lint 
+
+> basic-react-app@0.0.0 lint
+> eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
+
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] dir
+Running in C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master
+[Pipeline] {
+[Pipeline] bat
+
+C:\Users\JAGANNATH\.jenkins\workspace\reactapp_pipeline\basic-react-app-master>npm run build 
+
+> basic-react-app@0.0.0 build
+> vite build
+
+[36mvite v5.0.10 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 34 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                 [39m[1m[2m  0.47 kB[22m[1m[22m[2m │ gzip:  0.30 kB[22m
+[2mdist/[22m[32massets/react-h3aPdYU7.svg  [39m[1m[2m  4.13 kB[22m[1m[22m[2m │ gzip:  2.05 kB[22m
+[2mdist/[22m[35massets/index-4sK4E3Wk.css  [39m[1m[2m  1.39 kB[22m[1m[22m[2m │ gzip:  0.72 kB[22m
+[2mdist/[22m[36massets/index-apIUfoim.js   [39m[1m[2m143.43 kB[22m[1m[22m[2m │ gzip: 46.14 kB[22m
+[32m✓ built in 829ms[39m
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] echo
+Deploy successful!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Build and deployment successful!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
